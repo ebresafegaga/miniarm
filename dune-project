@@ -1,5 +1,6 @@
 (lang dune 3.4)
 
+
 (name miniarm)
 
 (generate_opam_files true)
@@ -7,13 +8,15 @@
 (source
  (github username/reponame))
 
-(authors "Author Name")
+(authors "Oghenevwogaga Ebresafe")
 
 (maintainers "Maintainer Name")
 
 (license LICENSE)
 
 (documentation https://url/to/documentation)
+
+(using menhir 2.1)
 
 (package
  (name miniarm)

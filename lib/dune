@@ -1,2 +1,9 @@
 (library
  (name miniarm))
+
+
+(ocamllex lexer)
+
+(menhir
+ (modules grammar)
+ (flags --explain))
