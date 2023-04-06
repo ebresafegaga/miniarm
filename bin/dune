@@ -1,4 +1,10 @@
 (executable
  (public_name miniarm)
  (name main)
+ ;(flags (:standard -cc -static))
  (libraries miniarm))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))

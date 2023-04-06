@@ -17,6 +17,10 @@ let int = '-'? digit+
 let whitespace = [' ' '\t']+
 
 rule read_token = parse
+    | "fp" { R11 }
+    | "sp" { R13 }
+    | "lr" { R14 }
+    | "pc" { R15 }
     | "r0" { R0 }
     | "r1" { R1 }
     | "r2" { R2 }
@@ -38,6 +42,12 @@ rule read_token = parse
     | "mov" { MOV }
     | "add" { ADD }
     | "sub" { SUB }
+    | "mul" { MUL }
+    | "div" { DIV }
+    | "push" { PUSH }
+    | "pop" { POP }
+    | "bx" { BX }
+    | "!" { BANG }
     | "[" { LBRACK }
     | "]" { RBRACK }
     | "{" { LBRACE }

@@ -7,3 +7,8 @@
 (menhir
  (modules grammar)
  (flags --explain))
+
+ (env
+ (dev
+  (flags
+   (:standard -warn-error -A))))
