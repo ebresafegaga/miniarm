@@ -1,2 +1,2 @@
-# miniarm
+# Miniarm
 A simple arm emulator 
