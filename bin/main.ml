@@ -6,7 +6,14 @@ let () =
   match !file |> Parser.from_file with
   | Result.Ok program ->
       let machine = Machine.create program in
-      let machine = Machine.exec machine in
+      let machine =
+        try Machine.exec machine
+        with Machine.ExecutionError e ->
+          Printf.eprintf "An error occured while executing your program: \n";
+
+          Printf.eprintf "%s" (Machine.show_error e);
+          exit 1
+      in
       let regs = Machine.registers machine in
       regs
       |> List.iter (fun (reg, value) ->

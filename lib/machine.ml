@@ -1,8 +1,12 @@
 type t = {
   registers : (Ast.reg, int) Hashtbl.t;
-  stack : int Array.t;
+  stack : int option Array.t;
   code : Ast.program;
 }
+
+type error = InvalidMemoryAccess | IncompleteInstruction [@@deriving show]
+
+exception ExecutionError of error
 
 let create code =
   let registers =
@@ -21,14 +25,14 @@ let create code =
         (R10, 0);
         (R11, 0);
         (R12, 0);
-        (R13, 500);
         (* sp *)
+        (R13, 500);
         (R14, 0);
         (R15, 0);
       ]
     |> List.to_seq |> Hashtbl.of_seq
   in
-  let stack = Array.make 1000 0 in
+  let stack = Array.make 1000 None in
   { registers; stack; code }
 
 let register : Ast.reg -> t -> int =
@@ -59,33 +63,44 @@ let pop : Ast.reg list -> t -> t = fun _regs machine -> machine
 let alignment = 4
 let normalize offset = offset / alignment
 
+let stack_slot machine index =
+  match machine.stack.(index) with
+  | Some value -> value
+  | None -> 0
+  | exception Invalid_argument _ -> raise @@ ExecutionError InvalidMemoryAccess
+
+let place_in_stack_slot machine ~index ~value =
+  match machine.stack.(index) <- Some value with
+  | () -> machine
+  | exception Invalid_argument _ -> raise @@ ExecutionError InvalidMemoryAccess
+
 (* be careful about stack slots *)
 let reference : Ast.address -> t -> int * t * int =
  fun address machine ->
   match address with
-  | Ast.Absolute i -> (machine.stack.(i), machine, i)
+  | Ast.Absolute i -> (stack_slot machine i, machine, i)
   | Ast.Relative (`None, reg, offset) ->
       let index = register reg machine in
       let offset = normalize offset in
       let address = index + offset in
-      (machine.stack.(address), machine, address)
+      (stack_slot machine address, machine, address)
   | Ast.Relative (`Pre, reg, offset) ->
       let offset = normalize offset in
       let machine = update reg machine (fun x -> x + offset) in
       let address = register reg machine in
-      (machine.stack.(address), machine, address)
+      (stack_slot machine address, machine, address)
   | Ast.Relative (`Post, reg, offset) ->
       let offset = normalize offset in
       let index = register reg machine in
       let address = index in
-      let result = machine.stack.(address) in
+      let result = stack_slot machine address in
       let machine = update reg machine (fun x -> x + offset) in
       (result, machine, address)
 
 let store_at_reference : Ast.address -> t -> int -> t =
  fun address machine v ->
   let _, _, slot = reference address machine in
-  machine.stack.(slot) <- v;
+  let machine = place_in_stack_slot machine ~index:slot ~value:v in
   machine
 
 let step_pc machine =
@@ -98,7 +113,11 @@ let registers machine = machine.registers |> Hashtbl.to_seq |> List.of_seq
 
 let rec exec machine =
   let machine, instruction = step_pc machine in
-  let instruction = instruction |> Option.get in
+  let instruction =
+    match instruction with
+    | Some x -> x
+    | None -> raise @@ ExecutionError IncompleteInstruction
+  in
   match instruction with
   | Ast.Add (destination, a, b) ->
       let a = register a machine in
