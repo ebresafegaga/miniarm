@@ -103,7 +103,7 @@ let store_at_reference : Ast.address -> t -> int -> t =
   let machine = place_in_stack_slot machine ~index:slot ~value:v in
   machine
 
-let step_pc machine =
+let next machine =
   let pc = register Ast.pc machine in
   let instruction = List.nth_opt machine.code pc in
   let machine = store Ast.pc machine (pc + 1) in
@@ -111,56 +111,62 @@ let step_pc machine =
 
 let registers machine = machine.registers |> Hashtbl.to_seq |> List.of_seq
 
-let rec exec machine =
-  let machine, instruction = step_pc machine in
-  let instruction =
-    match instruction with
-    | Some x -> x
-    | None -> raise @@ ExecutionError IncompleteInstruction
-  in
-  match instruction with
+type 'a stepper = Stop of 'a | Continue of 'a
+
+let step : t -> Ast.instr -> t stepper =
+ fun machine instr ->
+  match instr with
   | Ast.Add (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a + b in
       let machine = store destination machine result in
-      exec machine
+      Continue machine
   | Ast.Sub (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a - b in
       let machine = store destination machine result in
-      exec machine
+      Continue machine
   | Ast.Mul (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a * b in
       let machine = store destination machine result in
-      exec machine
+      Continue machine
   | Ast.Div (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a / b in
       let machine = store destination machine result in
-      exec machine
+      Continue machine
   | Ast.Mov (reg, a) ->
       let machine = store reg machine (value a machine) in
-      exec machine
+      Continue machine
   | Ast.Push regs ->
       let vs = regs |> List.map (fun reg -> register reg machine) in
       let rvs = List.combine regs vs in
       let machine = push rvs machine in
-      exec machine
+      Continue machine
   | Ast.Pop regs ->
       let machine = pop regs machine in
-      exec machine
+      Continue machine
   | Ast.Ldr (destination, source) ->
       let v, machine, _ = reference source machine in
       let machine = store destination machine v in
-      exec machine
+      Continue machine
   | Ast.Str (source, destination) ->
       let machine =
         store_at_reference destination machine (register source machine)
       in
-      exec machine
-  | Ast.Bx _ -> machine
+      Continue machine
+  | Ast.Bx _ -> Stop machine
+
+let rec exec machine =
+  let m, instr = next machine in
+  let instr =
+    match instr with
+    | Some x -> x
+    | None -> raise @@ ExecutionError IncompleteInstruction
+  in
+  match step m instr with Continue m -> exec m | Stop m -> m
