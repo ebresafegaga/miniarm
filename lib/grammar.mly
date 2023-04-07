@@ -48,10 +48,10 @@ instruction:
     | MOV; destination = register; COMMA; source = value { Ast.Mov (destination, source) }
     | LDR; destination = register; COMMA; source = address { Ast.Ldr (destination, source) }
     | STR; source = register; COMMA; destination = address { Ast.Str (source, destination) }
-    | ADD; destination = register; a = register; b = value { Ast.Add (destination, a, b) }
-    | SUB; destination = register; a = register; b = value { Ast.Sub (destination, a, b) }
-    | MUL; destination = register; a = register; b = value { Ast.Mul (destination, a, b) }
-    | DIV; destination = register; a = register; b = value { Ast.Div (destination, a, b) }
+    | ADD; destination = register; COMMA; a = register; COMMA; b = value { Ast.Add (destination, a, b) }
+    | SUB; destination = register; COMMA; a = register; COMMA; b = value { Ast.Sub (destination, a, b) }
+    | MUL; destination = register; COMMA; a = register; COMMA; b = value { Ast.Mul (destination, a, b) }
+    | DIV; destination = register; COMMA; a = register; COMMA; b = value { Ast.Div (destination, a, b) }
     | PUSH; regs = reg_list; { Ast.Push (regs) }
     | POP; regs = reg_list; { Ast.Pop (regs) }
     (* bx lr *)
