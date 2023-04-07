@@ -111,4 +111,4 @@ Ast.R1 = 12
 Ast.R15 = 5
 ```
 
-This is still a WIP.
+This is still a WIP, so please send bug reports to me if you can.
