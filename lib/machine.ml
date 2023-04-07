@@ -56,7 +56,7 @@ let update : Ast.reg -> t -> (int -> int) -> t =
 let push : (Ast.reg * int) list -> t -> t = fun _regs_val machine -> machine
 let pop : Ast.reg list -> t -> t = fun _regs machine -> machine
 let alignment = 4
-let normalize offset = offset / alignment
+let normalize offset = -(offset / alignment)
 
 (* be careful about stack slots *)
 let reference : Ast.address -> t -> int * t * int =
