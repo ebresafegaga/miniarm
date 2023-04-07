@@ -83,6 +83,7 @@ value:
 
 address: 
     (* TODO: support labels *)
+    | n = INT { Ast.Absolute (n) }
     (* e.g [r0]  *)
     | LBRACK; r = register; RBRACK { Ast.Relative (`None, r, 0) }
     (* e.g [r1, #2] *)
