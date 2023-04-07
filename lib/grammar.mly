@@ -41,7 +41,8 @@
 %%
 
 (* TODO: This is too rigid allow newlines to be in other places *)
-program: instructions = separated_list(NEWLINE, instruction); EOF { instructions }
+program: 
+    | instructions = separated_list(NEWLINE, instruction); EOF { instructions }
 
 instruction: 
     | MOV; destination = register; COMMA; source = value { Ast.Mov (destination, source) }

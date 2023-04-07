@@ -1,29 +1,28 @@
-(lang dune 3.4)
-
+(lang dune 3.0)
 
 (name miniarm)
 
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github ebresafegaga/miniarm))
 
 (authors "Oghenevwogaga Ebresafe")
 
-(maintainers "Maintainer Name")
+(maintainers "Oghenevwogaga Ebresafe")
 
 (license LICENSE)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/ebresafegaga/miniarm)
 
 (using menhir 2.1)
 
 (package
  (name miniarm)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune)
+ (synopsis "A simple arm emulator")
+ (description "A simple arm emulator")
+ (depends ocaml dune menhir ppx_deriving)
  (tags
-  (topics "to describe" your project)))
+  (emulator abstract-machine)))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project

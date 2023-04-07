@@ -1,5 +1,14 @@
 mov r1, #12
+
+
 mov r2, #13
+
+
 mov r3, #13
+
 mov r4, #13
+
+
+
+
 bx lr

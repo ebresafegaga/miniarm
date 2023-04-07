@@ -1,6 +1,7 @@
 (library
+ (preprocess
+  (pps ppx_deriving.show))
  (name miniarm))
-
 
 (ocamllex lexer)
 
@@ -8,7 +9,7 @@
  (modules grammar)
  (flags --explain))
 
- (env
+(env
  (dev
   (flags
    (:standard -warn-error -A))))

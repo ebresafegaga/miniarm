@@ -1,18 +1,15 @@
 with import <nixpkgs> {};
 
-let
-  ocamlPackages = pkgs.recurseIntoAttrs pkgs.ocaml-ng.ocamlPackages_latest;
-in
-  pkgs.mkShell {
-     buildInputs = with pkgs; [
-      dune_3
-    ] ++ ( with ocamlPackages;
-    [
-      ocaml
-      findlib
-      utop
-      merlin
-      menhir
-      ocp-indent
-    ]);
-  }
+pkgs.mkShell {
+  buildInputs = with pkgs; [
+    git
+    bash
+    opam
+    ocamlPackages.ocaml
+    ocamlPackages.dune_3
+    ocamlPackages.menhir
+    ocamlPackages.findlib
+    ocamlPackages.ppxlib
+    ocamlPackages.ppx_deriving
+  ];
+}

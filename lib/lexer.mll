@@ -15,6 +15,7 @@
 let digit = ['0'-'9']
 let int = '-'? digit+
 let whitespace = [' ' '\t']+
+let newline = '\r'+ | '\n'+ | "\r\n"+
 
 rule read_token = parse
     | "fp" { R11 }
@@ -54,7 +55,7 @@ rule read_token = parse
     | "}" { RBRACE }
     | "," { COMMA }
     | whitespace { read_token lexbuf }
-    | "\n" { NEWLINE }
+    | newline { next_line lexbuf; NEWLINE }
     | "#" { read_number lexbuf }
     | eof { EOF }
 

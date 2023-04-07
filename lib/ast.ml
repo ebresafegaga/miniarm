@@ -15,6 +15,7 @@ type reg =
   | R13
   | R14
   | R15
+[@@deriving show]
 
 type constant = Int of int
 type value = Register of reg | Immediate of constant
