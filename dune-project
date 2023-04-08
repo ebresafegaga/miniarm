@@ -21,7 +21,12 @@
  (name miniarm)
  (synopsis "A simple arm emulator")
  (description "A simple arm emulator")
- (depends ocaml dune menhir ppx_deriving)
+ (depends
+  (ocaml
+   (>= 4.13))
+  dune
+  menhir
+  ppx_deriving)
  (tags
   (emulator abstract-machine)))
 
