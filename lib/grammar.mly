@@ -1,8 +1,12 @@
 %token LDR
+%token VLDR
 %token STR
+%token VSTR
 %token MOV
 %token ADD MUL
 %token SUB DIV
+%token ADDF32 MULF32
+%token SUBF32 DIVF32
 %token PUSH POP
 %token BX
 
@@ -32,6 +36,23 @@
 %token R14
 %token R15
 
+%token S0
+%token S1
+%token S2
+%token S3
+%token S4
+%token S5
+%token S6
+%token S7
+%token S8
+%token S9
+%token S10
+%token S11
+%token S12
+%token S13
+%token S14
+%token S15
+
 %start program
 
 %type <Ast.program> program
@@ -47,11 +68,17 @@ program:
 instruction: 
     | MOV; destination = register; COMMA; source = value { Ast.Mov (destination, source) }
     | LDR; destination = register; COMMA; source = address { Ast.Ldr (destination, source) }
+    | VLDR; destination = register; COMMA; source = address { Ast.Vldr (destination, source) }
     | STR; source = register; COMMA; destination = address { Ast.Str (source, destination) }
+    | VSTR; source = register; COMMA; destination = address { Ast.Vstr (source, destination) }
     | ADD; destination = register; COMMA; a = register; COMMA; b = value { Ast.Add (destination, a, b) }
     | SUB; destination = register; COMMA; a = register; COMMA; b = value { Ast.Sub (destination, a, b) }
     | MUL; destination = register; COMMA; a = register; COMMA; b = value { Ast.Mul (destination, a, b) }
     | DIV; destination = register; COMMA; a = register; COMMA; b = value { Ast.Div (destination, a, b) }
+    | ADDF32; destination = register; COMMA; a = register; COMMA; b = value { Ast.AddF32 (destination, a, b) }
+    | SUBF32; destination = register; COMMA; a = register; COMMA; b = value { Ast.SubF32 (destination, a, b) }
+    | MULF32; destination = register; COMMA; a = register; COMMA; b = value { Ast.MulF32 (destination, a, b) }
+    | DIVF32; destination = register; COMMA; a = register; COMMA; b = value { Ast.DivF32 (destination, a, b) }
     | PUSH; regs = reg_list; { Ast.Push (regs) }
     | POP; regs = reg_list; { Ast.Pop (regs) }
     (* bx lr *)
@@ -76,6 +103,22 @@ register:
     | R13 { Ast.R13 }
     | R14 { Ast.R14 }
     | R15 { Ast.R15 }
+    | S0 { Ast.S0 }
+    | S1 { Ast.S1 }
+    | S2 { Ast.S2 }
+    | S3 { Ast.S3 }
+    | S4 { Ast.S4 }
+    | S5 { Ast.S5 }
+    | S6 { Ast.S6 }
+    | S7 { Ast.S7 }
+    | S8 { Ast.S8 }
+    | S9 { Ast.S9 }
+    | S10 { Ast.S10 }
+    | S11 { Ast.S11 }
+    | S12 { Ast.S12 }
+    | S13 { Ast.S13 }
+    | S14 { Ast.S14 }
+    | S15 { Ast.S15 }
 
 value: 
     | r = register { Ast.Register (r) }

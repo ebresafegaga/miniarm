@@ -1,5 +1,11 @@
-mov r1, #12
-mov r2, #13
-mov r3, #14
-mov r4, #15
-bx lr
+	 vldr s0, #6.8
+	 vstr s0, [sp, #-4]!
+
+	 vldr s0, #5.3
+	 vldr s1, #2.9
+	 vldr s2, [sp, #0]
+	 mul.f32, s1, s2
+	 add.f32, s0, s1
+	 vstr s0, [sp, #-4]!
+
+	 bx lr

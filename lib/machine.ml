@@ -116,25 +116,25 @@ type 'a stepper = Stop of 'a | Continue of 'a
 let step : t -> Ast.instr -> t stepper =
  fun machine instr ->
   match instr with
-  | Ast.Add (destination, a, b) ->
+  | Ast.Add (destination, a, b) | Ast.AddF32 (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a + b in
       let machine = store destination machine result in
       Continue machine
-  | Ast.Sub (destination, a, b) ->
+  | Ast.Sub (destination, a, b) | Ast.SubF32 (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a - b in
       let machine = store destination machine result in
       Continue machine
-  | Ast.Mul (destination, a, b) ->
+  | Ast.Mul (destination, a, b) | Ast.MulF32 (destination, a, b)->
       let a = register a machine in
       let b = value b machine in
       let result = a * b in
       let machine = store destination machine result in
       Continue machine
-  | Ast.Div (destination, a, b) ->
+  | Ast.Div (destination, a, b) | Ast.DivF32 (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a / b in
@@ -151,11 +151,11 @@ let step : t -> Ast.instr -> t stepper =
   | Ast.Pop regs ->
       let machine = pop regs machine in
       Continue machine
-  | Ast.Ldr (destination, source) ->
+  | Ast.Ldr (destination, source) | Ast.Vldr (destination, source)->
       let v, machine, _ = reference source machine in
       let machine = store destination machine v in
       Continue machine
-  | Ast.Str (source, destination) ->
+  | Ast.Str (source, destination) | Ast.Vstr (source, destination) ->
       let machine =
         store_at_reference destination machine (register source machine)
       in

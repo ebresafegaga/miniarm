@@ -38,6 +38,22 @@ rule read_token = parse
     | "r13" { R13 }
     | "r14" { R14 }
     | "r15" { R15 }
+    | "s0" { S0 }
+    | "s1" { S1 }
+    | "s2" { S2 }
+    | "s3" { S3 }
+    | "s4" { S4 }
+    | "s5" { S5 }
+    | "s6" { S6 }
+    | "s7" { S7 }
+    | "s8" { S8 }
+    | "s9" { S9 }
+    | "s10" { S10 }
+    | "s11" { S11 }
+    | "s12" { S12 }
+    | "s13" { S13 }
+    | "s14" { S14 }
+    | "S15" { R15 }
     | "ldr" { LDR }
     | "str" { STR }
     | "mov" { MOV }
@@ -45,6 +61,12 @@ rule read_token = parse
     | "sub" { SUB }
     | "mul" { MUL }
     | "div" { DIV }
+    | "vldr" { VLDR }
+    | "vstr" { VSTR }
+    | "add.f32" { ADDF32 }
+    | "sub.f32" { SUBF32 }
+    | "mul.f32" { MULF32 }
+    | "div.f32" { DIVF32 }
     | "push" { PUSH }
     | "pop" { POP }
     | "bx" { BX }
