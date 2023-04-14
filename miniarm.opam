@@ -15,6 +15,9 @@ depends: [
   "dune" {>= "3.0"}
   "menhir"
   "ppx_deriving"
+  "alcotest"
+  "ppx_expect"
+  "ppx_inline_test"
   "odoc" {with-doc}
 ]
 build: [

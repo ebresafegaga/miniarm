@@ -54,12 +54,13 @@ let is_floating : reg -> bool =
   | S15 -> true
   | _ -> false
 
-type constant = Int of int | Float of float
-type value = Register of reg | Immediate of constant
+type constant = Int of int [@@deriving show]
+type value = Register of reg | Immediate of constant [@@deriving show]
 
 type address =
   | Absolute of int
-  | Relative : (* Indexing: *) [ `Post | `Pre | `None ] * reg * int -> address
+  | Relative of (* Indexing: *) [ `Post | `Pre | `None ] * reg * int
+[@@deriving show]
 
 let fp = R11
 let sp = R13
@@ -84,5 +85,6 @@ type instr =
   | Push of reg list
   | Pop of reg list
   | Bx of [ `lr ]
+[@@deriving show]
 
 type program = instr list

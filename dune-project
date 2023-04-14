@@ -28,7 +28,10 @@
    (= 0.24.1))
   dune
   menhir
-  ppx_deriving)
+  ppx_deriving
+  alcotest
+  ppx_expect
+  ppx_inline_test)
  (tags
   (emulator arm)))
 
