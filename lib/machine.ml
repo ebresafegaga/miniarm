@@ -148,9 +148,7 @@ let step : t -> Ast.instr -> t stepper =
       let rvs = List.combine regs vs in
       let machine = push rvs machine in
       Continue machine
-  | Ast.Pop regs ->
-      let machine = pop regs machine in
-      Continue machine
+  | Ast.Pop regs -> Continue (pop regs machine)
   | Ast.Ldr (destination, source) ->
       let v, machine, _ = reference source machine in
       let machine = store destination machine v in
@@ -170,3 +168,6 @@ let rec exec machine =
     | None -> raise @@ ExecutionError IncompleteInstruction
   in
   match step m instr with Continue m -> exec m | Stop m -> m
+
+
+let f = Bytes.blit

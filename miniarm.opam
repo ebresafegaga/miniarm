@@ -5,7 +5,7 @@ description: "A simple arm emulator"
 maintainer: ["Oghenevwogaga Ebresafe"]
 authors: ["Oghenevwogaga Ebresafe"]
 license: "LICENSE"
-tags: ["emulator" "abstract-machine"]
+tags: ["emulator" "arm"]
 homepage: "https://github.com/ebresafegaga/miniarm"
 doc: "https://github.com/ebresafegaga/miniarm"
 bug-reports: "https://github.com/ebresafegaga/miniarm/issues"

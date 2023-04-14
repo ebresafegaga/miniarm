@@ -1,5 +1,18 @@
-mov r1, #12
-mov r2, #13
-mov r3, #14
-mov r4, #15
+mov r0, 1
+mov r1, 2 
+str r1, [sp,-4] 
+mov r1, 3
+str r1, [sp,-8] 
+mov r1, 4
+str r1, [sp,-12] 
+ldr r1, [sp,-4] 
+mul r1, r1, r0
+str r1, [sp,-16] 
+ldr r1, [sp,-8] 
+str r0, [sp,-12] 
+div r1, r1, r0
+str r1, [sp,-20] 
+ldr r1, [sp,-16] 
+ldr r0, [sp,-20] 
+add r1, r1, r0
 bx lr
