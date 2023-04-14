@@ -33,13 +33,8 @@ type reg =
   | S15
 [@@deriving show]
 
-type constant =
-  | Int of int
-  | Float of float
-
-type value =
-  | Register of reg
-  | Immediate of constant
+type constant = Int of int | Float of float
+type value = Register of reg | Immediate of constant
 
 type address =
   | Absolute of int

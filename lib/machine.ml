@@ -128,7 +128,7 @@ let step : t -> Ast.instr -> t stepper =
       let result = a - b in
       let machine = store destination machine result in
       Continue machine
-  | Ast.Mul (destination, a, b) | Ast.MulF32 (destination, a, b)->
+  | Ast.Mul (destination, a, b) | Ast.MulF32 (destination, a, b) ->
       let a = register a machine in
       let b = value b machine in
       let result = a * b in
@@ -151,7 +151,7 @@ let step : t -> Ast.instr -> t stepper =
   | Ast.Pop regs ->
       let machine = pop regs machine in
       Continue machine
-  | Ast.Ldr (destination, source) | Ast.Vldr (destination, source)->
+  | Ast.Ldr (destination, source) | Ast.Vldr (destination, source) ->
       let v, machine, _ = reference source machine in
       let machine = store destination machine v in
       Continue machine
@@ -170,6 +170,5 @@ let rec exec machine =
     | None -> raise @@ ExecutionError IncompleteInstruction
   in
   match step m instr with Continue m -> exec m | Stop m -> m
-
 
 let f = Bytes.blit

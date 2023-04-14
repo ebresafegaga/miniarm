@@ -1,3 +1,5 @@
+![Build](https://github.com/ebresafegaga/miniarm/actions/workflows/workflow.yml/badge.svg)
+
 # Miniarm
 A simple arm emulator 
 
@@ -20,7 +22,7 @@ Once you have Nix installed you should be able to run this:
 $ nix-shell
 ```
 
-This will drop you into a shell which has all the build dependecies.
+This will drop you into a shell which has all the build dependencies.
 
 Now you can build the project using the following command: 
 
@@ -31,9 +33,9 @@ $ dune build
 You will find the executable program at `_build/default/bin/main.exe`
 
 ## With Opam 
-If you're an OCaml user, you can install dependecies with [opam](https://opam.ocaml.org/).
+If you're an OCaml user, you can install dependencies with [opam](https://opam.ocaml.org/).
 
-You can install dependecies using the following: 
+You can install dependencies using the following: 
 
 ```bash
 $ opam install . --deps-only --with-doc --with-test
