@@ -11,6 +11,7 @@ doc: "https://github.com/ebresafegaga/miniarm"
 bug-reports: "https://github.com/ebresafegaga/miniarm/issues"
 depends: [
   "ocaml" {>= "4.13"}
+  "ocamlformat" {= "0.24.1"}
   "dune" {>= "3.0"}
   "menhir"
   "ppx_deriving"
