@@ -24,6 +24,8 @@
  (depends
   (ocaml
    (>= 4.13))
+  (ocamlformat
+   (= 0.24.1))
   dune
   menhir
   ppx_deriving)

@@ -15,14 +15,51 @@ type reg =
   | R13
   | R14
   | R15
-[@@deriving show]
+  | S0
+  | S1
+  | S2
+  | S3
+  | S4
+  | S5
+  | S6
+  | S7
+  | S8
+  | S9
+  | S10
+  | S11
+  | S12
+  | S13
+  | S14
+  | S15
+[@@deriving show, ord]
 
-type constant = Int of int
+let is_floating : reg -> bool =
+ fun reg ->
+  match reg with
+  | S0 -> true
+  | S1 -> true
+  | S2 -> true
+  | S3 -> true
+  | S4 -> true
+  | S5 -> true
+  | S6 -> true
+  | S7 -> true
+  | S8 -> true
+  | S9 -> true
+  | S10 -> true
+  | S11 -> true
+  | S12 -> true
+  | S13 -> true
+  | S14 -> true
+  | S15 -> true
+  | _ -> false
+
+type constant = Int of int | Float of float
 type value = Register of reg | Immediate of constant
 
 type address =
   | Absolute of int
-  | Relative of (* Indexing: *) [ `Post | `Pre | `None ] * reg * int
+  | Relative : (* Indexing: *) [ `Post | `Pre | `None ] * reg * int -> address
 
 let fp = R11
 let sp = R13
@@ -37,6 +74,13 @@ type instr =
   | Ldr of reg * address
   | Str of reg * address
   | Mov of reg * value
+  | Vmov of reg * value
+  | AddF32 of reg * reg * value
+  | SubF32 of reg * reg * value
+  | MulF32 of reg * reg * value
+  | DivF32 of reg * reg * value
+  | Vldr of reg * address
+  | Vstr of reg * address
   | Push of reg list
   | Pop of reg list
   | Bx of [ `lr ]

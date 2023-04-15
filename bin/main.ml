@@ -14,10 +14,7 @@ let () =
           Printf.eprintf "%s" (Machine.show_error e);
           exit 1
       in
-      let regs = Machine.registers machine in
-      regs
-      |> List.iter (fun (reg, value) ->
-             Printf.printf "%s = %d\n" (Ast.show_reg reg) value)
+      Machine.print Format.std_formatter machine
   | Result.Error e ->
       Printf.eprintf
         "The parser told me they couldn't parse your program correctly. Did \
