@@ -1,2 +1,17 @@
 (test
- (name miniarm))
+ (name main)
+ (libraries alcotest miniarm expect)
+ (modules main))
+
+(library
+ (name expect)
+ (inline_tests)
+ (libraries miniarm ppx_inline_test.runtime-lib ppx_expect.evaluator)
+ (preprocess
+  (pps ppx_expect ppx_inline_test))
+ (modules expect))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))

@@ -20,3 +20,7 @@ let from_lexbuf lexbuf =
 
 let from_string s = s |> Lexing.from_string |> from_lexbuf
 let from_file name = name |> open_in |> Lexing.from_channel |> from_lexbuf
+
+module To_test = struct
+  let parse = from_string
+end

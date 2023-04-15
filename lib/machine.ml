@@ -254,3 +254,8 @@ let rec exec machine =
     | None -> raise @@ ExecutionError IncompleteInstruction
   in
   match step m instr with Continue m -> exec m | Stop m -> m
+
+
+module To_test = struct 
+
+end
