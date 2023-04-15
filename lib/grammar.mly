@@ -2,7 +2,7 @@
 %token VLDR
 %token STR
 %token VSTR
-%token MOV
+%token MOV VMOV
 %token ADD MUL
 %token SUB DIV
 %token ADDF32 MULF32
@@ -16,6 +16,7 @@
 %token COMMA
 %token NEWLINE
 %token <int> INT
+%token <float> FLOAT
 %token EOF
 %token BANG
 
@@ -67,6 +68,7 @@ program:
 
 instruction: 
     | MOV; destination = register; COMMA; source = value { Ast.Mov (destination, source) }
+    | VMOV; destination = register; COMMA; source = value { Ast.Vmov (destination, source) }
     | LDR; destination = register; COMMA; source = address { Ast.Ldr (destination, source) }
     | VLDR; destination = register; COMMA; source = address { Ast.Vldr (destination, source) }
     | STR; source = register; COMMA; destination = address { Ast.Str (source, destination) }
@@ -123,6 +125,7 @@ register:
 value: 
     | r = register { Ast.Register (r) }
     | n = INT { Ast.Immediate (Ast.Int n) }
+    | n = FLOAT { Ast.Immediate (Ast.Float n) }
 
 address: 
     (* TODO: support labels *)

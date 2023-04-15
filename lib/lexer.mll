@@ -14,6 +14,8 @@
 
 let digit = ['0'-'9']
 let int = '-'? digit+
+let frac = '.' digit*
+let float = '-'? digit* frac?
 let whitespace = [' ' '\t']+
 let newline = '\r'+ | '\n'+ | "\r\n"+
 
@@ -61,6 +63,7 @@ rule read_token = parse
     | "sub" { SUB }
     | "mul" { MUL }
     | "div" { DIV }
+    | "vmov" { VMOV }
     | "vldr" { VLDR }
     | "vstr" { VSTR }
     | "add.f32" { ADDF32 }
@@ -83,4 +86,5 @@ rule read_token = parse
 
 and read_number = parse
     | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+    | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
     | eof { raise (SyntaxError (lexbuf.lex_curr_p, "Expected a number after a #")) }

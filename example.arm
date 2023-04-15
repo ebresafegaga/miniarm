@@ -1,11 +1,9 @@
-vldr s0, #6.8
+vmov s0, #6.8
 vstr s0, [sp, #-4]!
-
-vldr s0, #5.3
-vldr s1, #2.9
+vmov s0, #5.3
+vmov s1, #2.9
 vldr s2, [sp, #0]
-mul.f32, s1, s2
-add.f32, s0, s1
+mul.f32 s1, s1, s2
+add.f32 s0, s1, #0.0
 vstr s0, [sp, #-4]!
-
 bx lr
