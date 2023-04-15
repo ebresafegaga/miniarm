@@ -54,7 +54,7 @@ let is_floating : reg -> bool =
   | S15 -> true
   | _ -> false
 
-type constant = Int of int [@@deriving show]
+type constant = Int of int | Float of float [@@deriving show]
 type value = Register of reg | Immediate of constant [@@deriving show]
 
 type address =
