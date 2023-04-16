@@ -51,14 +51,16 @@ You will find the executable program at `_build/default/bin/main.exe`
 
 # Features 
 This is a *very* simple arm32 emulator. Right now it only supports the following instructions: 
-* `add`
-* `sub`
-* `mul` 
-* `div` 
-* `ldr` 
-* `str`
-* `mov` 
-* `bx` 
+|   | |
+| ------------- | ------------- |
+| `add`  | `add.f32`  |
+| `sub`  | `sub.f32`  |
+| `mul`  | `mul.f32`  |
+| `div`  | `div.f32`  |
+| `ldr`  | `vldr`  |
+| `str`  | `vstr`  |
+| `mov`  | `vmov`  |
+| `bx`  |  |
 
 Given how simple it is, `miniarm` expects your program to be just a sequence of instructions which ends with `bx lr`
 
